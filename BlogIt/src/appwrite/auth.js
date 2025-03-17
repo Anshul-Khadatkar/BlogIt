@@ -14,7 +14,7 @@ export class AuthService {
   }
   async createAccount({ email, password, name }) {
     try {
-      const userAccount = await this.client.account.create(ID.unique(),email,password,name);
+      const userAccount = await this.client.create(ID.unique(),email,password,name);
       if (userAccount) {
           //call another method
           this.login({ email, password });
@@ -39,9 +39,10 @@ export class AuthService {
       try {
         return await this.account.get();
       } catch (error) {
-        console.log("appwrite service current user error",error);
+        console.log("appwrite service current user error", error);
+        throw error;
       }
-  }
+    }
     async logout() {
       try {
         await this.account.deleteSessions(); //all sessions deleted
